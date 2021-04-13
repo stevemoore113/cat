@@ -1,0 +1,26 @@
+{
+  "name": "cat_cup",
+  "version": "1.0.0",
+  "description": "to cumpute bengal katten gene",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stevemoore113/cat.git"
+  },
+  "author": "steve shuih",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stevemoore113/cat/issues"
+  },
+  "homepage": "https://github.com/stevemoore113/cat#readme",
+  "dependencies": {
+    "koa": "^2.13.1",
+    "koa-router": "^10.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.4"
+  }
+}
