@@ -4,7 +4,7 @@
   "description": "to cumpute bengal katten gene",
   "main": "index.js",
   "scripts": {
-    "start": "node cat/backend/app-start.js",
+    "start": "tsc && node cat/backend/app-start.js",
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node cat/backend/app-start.ts",
     "build": "tsc",
     "test": "jest --coverage"
