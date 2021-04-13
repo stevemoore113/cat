@@ -34,7 +34,29 @@ function computeGene(papa, mama) {
             dimensions.push(nextDim);
     }
     explore(dimensions.shift(), "");
-    return result;
+    return toNumberGene(result);
+}
+function toNumberGene(data) {
+    const resArray = [];
+    const base = data.length;
+    const geneSet = new Set();
+    for (const c of data) {
+        geneSet.add(c);
+    }
+    for (const c of geneSet) {
+        let num = 0;
+        for (const s of data) {
+            if (c === s) {
+                num = num + 1;
+            }
+        }
+        const obj = {
+            name: c,
+            p: num / base,
+        };
+        resArray.push(obj);
+    }
+    return resArray;
 }
 class BengalConstroller {
     static compute(ctx, next) {
@@ -47,19 +69,29 @@ class BengalConstroller {
              * 合一 黑豹black ['a','a'] ['A','a']
              * 獨立 閃光flaten ['b','x']['x','x']
              */
-            const gene = { snow: ['', ''], snow2: ['', ''] };
-            gene.snow = ['cs', 'cs'];
-            gene.snow2 = ['x', 'cs'];
-            const resSnow = computeGene(gene.snow, gene.snow2);
-            console.log(resSnow);
-            // const resCharcoa = computeGene(gene.Char, gene.Char2);
-            // const resSliver = computeGene(gene.sliver, gene.sliver2);
-            // const resFlat = computeGene(gene.flat, gene.flat2);
-            // const resBlack = computeGene(gene.black, gene.black2);
+            // const gene = { snow: ['', ''], snow2: ['', ''], sliver: ['', ''], sliver2: ['', ''] };
+            // gene.snow = ['cb', 'cs'];
+            // gene.snow2 = ['x', 'cs'];
+            // gene.sliver = ['x', 's'];
+            // gene.sliver2 = ['x', 'x'];
+            const resArray = [];
+            const gene = ctx.request.body;
+            console.log(ctx);
+            // const resSnow = computeGene(gene.baba.snow, gene.mama.snow);
+            // const resCharcoa = computeGene(gene.baba.Char, gene.mama.Char);
+            // const resSliver = computeGene(gene.baba.sliver, gene.mama.sliver);
+            // const resFlat = computeGene(gene.baba.flat, gene.mama.flat);
+            // const resBlack = computeGene(gene.baba.black, gene.mama.black);
+            // resArray.push(resSnow);
+            // resArray.push(resCharcoa);
+            // resArray.push(resSliver);
+            // resArray.push(resFlat);
+            // resArray.push(resBlack);
+            // ctx.body = resArray;
             yield next();
         });
     }
 }
 const bengalRouter = new koa_router_1.default();
 exports.bengalRouter = bengalRouter;
-bengalRouter.get('/', BengalConstroller.compute);
+bengalRouter.post('/', BengalConstroller.compute);

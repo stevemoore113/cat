@@ -23,7 +23,29 @@ function computeGene(papa: any[], mama: any[]) {
     if (nextDim) dimensions.push(nextDim);
   }
   explore(dimensions.shift(), "");
-  return result;
+  return toNumberGene(result);
+}
+function toNumberGene(data: any[]) {
+  const resArray = [];
+  const base: number = data.length;
+  const geneSet = new Set();
+  for (const c of data) {
+    geneSet.add(c);
+  }
+  for (const c of geneSet) {
+    let num = 0;
+    for (const s of data) {
+      if (c === s) {
+        num = num + 1;
+      }
+    }
+    const obj = {
+      name: c,
+      p: num / base,
+    }
+    resArray.push(obj);
+  }
+  return resArray;
 }
 
 class BengalConstroller {
@@ -37,21 +59,31 @@ class BengalConstroller {
      * 獨立 閃光flaten ['b','x']['x','x']
      */
 
-    const gene = { snow: ['', ''], snow2: ['', ''] };
-    gene.snow = ['cs', 'cs'];
-    gene.snow2 = ['x', 'cs'];
-    const resSnow = computeGene(gene.snow, gene.snow2);
+    // const gene = { snow: ['', ''], snow2: ['', ''], sliver: ['', ''], sliver2: ['', ''] };
+    // gene.snow = ['cb', 'cs'];
+    // gene.snow2 = ['x', 'cs'];
+    // gene.sliver = ['x', 's'];
+    // gene.sliver2 = ['x', 'x'];
+    const resArray = [];
+    const gene = ctx.request.body;
+    console.log(ctx);
+    // const resSnow = computeGene(gene.baba.snow, gene.mama.snow);
+    // const resCharcoa = computeGene(gene.baba.Char, gene.mama.Char);
+    // const resSliver = computeGene(gene.baba.sliver, gene.mama.sliver);
+    // const resFlat = computeGene(gene.baba.flat, gene.mama.flat);
+    // const resBlack = computeGene(gene.baba.black, gene.mama.black);
+    // resArray.push(resSnow);
+    // resArray.push(resCharcoa);
+    // resArray.push(resSliver);
+    // resArray.push(resFlat);
+    // resArray.push(resBlack);
 
-    console.log(resSnow);
-    // const resCharcoa = computeGene(gene.Char, gene.Char2);
-    // const resSliver = computeGene(gene.sliver, gene.sliver2);
-    // const resFlat = computeGene(gene.flat, gene.flat2);
-    // const resBlack = computeGene(gene.black, gene.black2);
+    // ctx.body = resArray;
 
     await next();
   }
 }
 
 const bengalRouter = new Router();
-bengalRouter.get('/', BengalConstroller.compute);
+bengalRouter.post('/', BengalConstroller.compute);
 export { bengalRouter };
