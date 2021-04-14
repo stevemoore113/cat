@@ -63,11 +63,11 @@ class BengalConstroller {
         return __awaiter(this, void 0, void 0, function* () {
             /**
              * []
-             * 獨立 雪豹snow ['cs','x'] ['cb','x'] '['cs','cs']' '['cb','cs']' '['cb','cb']'  ['x','x']
-             * 獨立 銀豹sliver ['s','x'] ['s','x']
-             * 合一 炭豹charcoa ['abp','a'] ['abp','abp'] ['abp','A']
-             * 合一 黑豹black ['a','a'] ['A','a']
-             * 獨立 閃光flaten ['b','x']['x','x']
+             * 獨立 snow ['cs','x'] ['cb','x'] '['cs','cs']' '['cb','cs']' '['cb','cb']'  ['x','x']
+             * 獨立 sliver ['s','x'] ['s','x']
+             * 合一 charcoa ['abp','a'] ['abp','abp'] ['abp','A']
+             * 合一 black ['a','a'] ['A','a']
+             * 獨立 flaten ['b','x']['x','x']
              */
             // const gene = { snow: ['', ''], snow2: ['', ''], sliver: ['', ''], sliver2: ['', ''] };
             // gene.snow = ['cb', 'cs'];
@@ -76,18 +76,18 @@ class BengalConstroller {
             // gene.sliver2 = ['x', 'x'];
             const resArray = [];
             const gene = ctx.request.body;
-            console.log(ctx);
-            // const resSnow = computeGene(gene.baba.snow, gene.mama.snow);
-            // const resCharcoa = computeGene(gene.baba.Char, gene.mama.Char);
-            // const resSliver = computeGene(gene.baba.sliver, gene.mama.sliver);
-            // const resFlat = computeGene(gene.baba.flat, gene.mama.flat);
-            // const resBlack = computeGene(gene.baba.black, gene.mama.black);
-            // resArray.push(resSnow);
-            // resArray.push(resCharcoa);
-            // resArray.push(resSliver);
-            // resArray.push(resFlat);
-            // resArray.push(resBlack);
-            // ctx.body = resArray;
+            console.log(gene);
+            const resSnow = computeGene(gene.baba.snow, gene.mama.snow);
+            const resCharcoa = computeGene(gene.baba.char, gene.mama.char);
+            const resSliver = computeGene(gene.baba.sliver, gene.mama.sliver);
+            const resFlat = computeGene(gene.baba.flat, gene.mama.flat);
+            const resBlack = computeGene(gene.baba.black, gene.mama.black);
+            resArray.push(resSnow);
+            resArray.push(resCharcoa);
+            resArray.push(resSliver);
+            resArray.push(resFlat);
+            resArray.push(resBlack);
+            ctx.body = resArray;
             yield next();
         });
     }
