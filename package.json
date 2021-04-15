@@ -27,7 +27,7 @@
     "yarn": "^1.22.10"
   },
   "pre-commit": [
-    "test"
+    "jest --coverage"
   ],
   "devDependencies": {
     "@types/jest": "^26.0.22",
