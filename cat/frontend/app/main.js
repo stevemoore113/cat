@@ -1,8 +1,12 @@
-import React from 'react';
-import { render } from 'react-dom';
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const react_1 = __importDefault(require("react"));
+const react_dom_1 = require("react-dom");
 function App() {
-  return <div>Hello React</div>
+    return Hello;
+    react_1.default < /div>;
 }
-
-render(<App />, document.getElementById('app'));
+react_dom_1.render(/>, document.getElementById('app')););
