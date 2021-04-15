@@ -69,11 +69,6 @@ class BengalConstroller {
              * 合一 black ['a','a'] ['A','a']
              * 獨立 flaten ['b','x']['x','x']
              */
-            // const gene = { snow: ['', ''], snow2: ['', ''], sliver: ['', ''], sliver2: ['', ''] };
-            // gene.snow = ['cb', 'cs'];
-            // gene.snow2 = ['x', 'cs'];
-            // gene.sliver = ['x', 's'];
-            // gene.sliver2 = ['x', 'x'];
             const resArray = [];
             const gene = ctx.request.body;
             console.log(gene);
