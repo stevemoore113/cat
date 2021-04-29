@@ -1,6 +1,5 @@
 import Koa, { Context, ParameterizedContext } from 'koa';
 import Router from 'koa-router';
-import fs from 'fs';
 import ExcelJS, { Workbook, Worksheet } from 'exceljs';
 
 const app = new Koa();
@@ -9,26 +8,22 @@ class ExcelResultRoute {
   static async outputExcel(ctx: ParameterizedContext, next: Function) {
     try {
 
-      const workbook = new ExcelJS.Workbook();
-      const worksheet = workbook.addWorksheet('My Sheet', { properties: { tabColor: { argb: 'FFC0000' } } });
 
-      workbook.creator = 'steve';
-      workbook.lastModifiedBy = 'steve';
-      workbook.created = new Date();
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("My Sheet");
+
+      workbook.creator = 'Me';
+      workbook.lastModifiedBy = 'Her';
+      workbook.created = new Date(1985, 8, 30);
       workbook.modified = new Date();
-      workbook.lastPrinted = new Date();
+      workbook.lastPrinted = new Date(2016, 9, 27);
 
 
       worksheet.columns = [{ header: 'Id', key: 'id', width: 10 }];
 
       worksheet.addRow({ id: 1, name: 'John Doe', dob: new Date(1970, 1, 1) });
-      worksheet.addRow({ id: 2, name: 'John Doe', dob: new Date(1970, 1, 1) });
-      worksheet.addRow({ id: 3, name: 'John Doe', dob: new Date(1970, 1, 1) });
-      worksheet.addRow({ id: 4, name: 'John Doe', dob: new Date(1970, 1, 1) });
-      await workbook.xlsx.writeFile('export3.xlsx').then(function () {
-        ctx.body = '123';
-      });
-      fs.unlink('export3.xlsx');
+      // save under export.xlsx
+      await workbook.xlsx.writeFile('export.xlsx');
       console.log("File is written");
       await next();
     } catch (error) {

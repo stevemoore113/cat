@@ -12,9 +12,6 @@ const app = new koa_1.default();
 app.use(koa_body_1.default());
 const router = new koa_router_1.default();
 app.use(bengal_route_1.bengalRouter.routes());
-/**
- * 產生機率報表
- */
-// app.use(excel_result_route_1.excelRouter.routes());
+app.use(excel_result_route_1.excelRouter.routes());
 app.listen(3000);
 console.log('Server running on port 3000');

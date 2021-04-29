@@ -22,20 +22,16 @@ class ExcelResultRoute {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const workbook = new exceljs_1.default.Workbook();
-                const worksheet = workbook.addWorksheet('My Sheet', { properties: { tabColor: { argb: 'FFC0000' } } });
-                workbook.creator = 'steve';
-                workbook.lastModifiedBy = 'steve';
-                workbook.created = new Date();
+                const worksheet = workbook.addWorksheet("My Sheet");
+                workbook.creator = 'Me';
+                workbook.lastModifiedBy = 'Her';
+                workbook.created = new Date(1985, 8, 30);
                 workbook.modified = new Date();
-                workbook.lastPrinted = new Date();
+                workbook.lastPrinted = new Date(2016, 9, 27);
                 worksheet.columns = [{ header: 'Id', key: 'id', width: 10 }];
                 worksheet.addRow({ id: 1, name: 'John Doe', dob: new Date(1970, 1, 1) });
-                worksheet.addRow({ id: 2, name: 'John Doe', dob: new Date(1970, 1, 1) });
-                worksheet.addRow({ id: 3, name: 'John Doe', dob: new Date(1970, 1, 1) });
-                worksheet.addRow({ id: 4, name: 'John Doe', dob: new Date(1970, 1, 1) });
-                yield workbook.xlsx.writeFile('export3.xlsx').then(function () {
-                    ctx.body = '123';
-                });
+                // save under export.xlsx
+                yield workbook.xlsx.writeFile('export.xlsx');
                 console.log("File is written");
                 yield next();
             }
