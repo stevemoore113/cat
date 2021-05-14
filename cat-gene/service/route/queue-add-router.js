@@ -1,11 +1,8 @@
-var mongodb = require('mongodb')
-var mongoDbQueue = require('mongodb-queue')
-var Router = require('koa-router');
-var md5 = require('md5');
+const mongodb = require('mongodb')
+const mongoDbQueue = require('mongodb-queue')
+const Router = require('koa-router');
+const md5 = require('md5');
 
-const url = 'mongodb://localhost:27017/'
-const client = new mongodb.MongoClient(url, { useNewUrlParser: true })
-const data = { name: 'steve', time: 5000, status: 'close', md5: '' };
 
 async function wait(ms) {
   return new Promise(function (resolve, reject) {
@@ -23,37 +20,46 @@ class addReprotController {
    * @param {*} next 
    */
   static async AddQueueDb(ctx, next) {
+    const url = 'mongodb://localhost:27017/'
+    const client = new mongodb.MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true })
+    const checkMaxTime = 20000 / 1000;
+    const visibilityTime = 1; //一秒鐘後進入列隊
+    const delayTime = 10; //幾秒後加入列隊
+    const data = { taskName: 'steve', time: 5000, status: 'close', md5: '', isComplete: false };
+    let checkExist = '';
 
-    data.name = ctx.request.body.name;
+
+    data.taskName = ctx.request.body.taskName;
     data.status = 'open';
     data.time = ctx.request.body.time;
-    data.md5 = md5(JSON.stringify(md5));
+    data.md5 = md5(JSON.stringify(data));
+    data.isComplete = false;
 
-    client.connect(async (err) => {
+    console.log('jsondata : ', ctx.request.body);
+    console.log('data : ', data);
+
+    await client.connect().then(async (err) => {
       const db = client.db('test')
-      const dbo = db.collection('db-test-check');;
-      const resCheck = await dbo.findOne({ md5: data.md5 }).lean()
-      if (resCheck) {
+      const dbo = db.collection('db-test-check');
+      const deadQueue = mongoDbQueue(db, 'deadQueue');
+      const _option = { visibility: visibilityTime, delay: delayTime, deadQueue: deadQueue };
+      const queue = mongoDbQueue(db, 'my-queue-test', _option)
+      checkExist = await dbo.findOne({ md5: data.md5 })
+      if (checkExist) {
+        console.log('重複任務');
         return;
       } else {
-        data = data.md5 = md5(JSON.stringify(data));
-        dbo.insertOne(data);
-        await wait(100);
+        await dbo.insertOne(data);
+        await wait(200);
+        queue.add(data, (err) => { });
+        await wait(200);
       }
-      client.close();
-    })
-    client.connect(async (err, ctx) => {
-      const db = client.db('test')
-      var deadQueue = mongoDbQueue(db, 'deadQueue');
-      const queue = mongoDbQueue(db, 'my-queue-test', { visibility: 1, delay: 10, deadQueue: deadQueue })
-      queue.add(data, (err) => { });
-      await wait(100);
-      client.close();
-    })
+    });
+    await client.close();
     next();
   }
 }
 
 const queueAdd = new Router();
 queueAdd.post('/AddQueue', addReprotController.AddQueueDb);
-export { queueAddRouter };
+module.exports = queueAdd;

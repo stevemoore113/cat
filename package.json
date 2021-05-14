@@ -4,6 +4,8 @@
   "description": "to cumpute bengal katten gene",
   "main": "index.js",
   "scripts": {
+    "start:noTs": "node cat-gene/service/app-start.js",
+    "start:getReport": "node cat-gene/service/route/queue-check.js",
     "start:local": "tsc && node cat-gene/backend/app-start.js",
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node cat/backend/app-start.ts",
     "build": "tsc",
@@ -27,6 +29,7 @@
     "koa-router": "^10.0.0",
     "md5": "^2.3.0",
     "mongodb-queue": "^4.0.0",
+    "node-fetch": "^2.6.1",
     "react": "^17.0.2",
     "yarn": "^1.22.10"
   },
